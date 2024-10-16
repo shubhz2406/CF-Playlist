@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Codeforces Problem Playlist",
+    "version": "1.0",
+    "description": "Add problems to your Codeforces playlist",
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "storage",
+      "alarms"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "https://codeforces.com/contest/*/problem/*",
+          "https://codeforces.com/profile/*" 
+        ],
+        "js": ["content.js"],
+        "css": ["styles.css"]
+      }
+    ],
+    "action": {
+      "default_popup": "popup.html"
+    }
+  }
+  
