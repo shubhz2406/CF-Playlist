@@ -1,11 +1,12 @@
 /* Playlist Button */
 .add-button {
-    background: #001aff;
-    border: none;
-    padding: 5px;
+    /* background: #001aff; */
+    /* border: none; */
+    padding-top: 3px;
     cursor: pointer;
     margin-left: 10px;
-    border-radius: 3px;
+    margin-top:0px
+    /* border-radius: 3px; */
 }
 
 /* Playlist Section */
@@ -23,12 +24,12 @@
 /* Shuffle Button */
 .shuffle-button {
     position: absolute;
-    top: 10px;
-    right: 20px;
-    background: #00e70c;
-    color: rgb(0, 0, 0);
+    top: 0px;
+    right: 30px;
+    /* background: grey; */
+    color: rgb(159, 159, 159);
     border: none;
-    padding: 5px 10px; /* Adjusted padding for smaller size */
+    padding: 2px 10px; /* Adjusted padding for smaller size */
     cursor: pointer;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -48,10 +49,10 @@
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #E1E1E1;
+    padding: 7px 7px 2px 7px;
+    border-radius: 6px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
 /* Problem Item */
@@ -60,25 +61,25 @@
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    margin-bottom: 1px;
-    padding: 10px;
-    background-color: #fff;
+    margin-bottom: 0.5px;
+    padding: 5px;
+    background-color: #f8f8f8;
     /* border-radius: 6px; */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Problem Link */
 .problem-link {
-    font-size: 16px;
+    font-size: 13px;
     text-decoration: none;
-    color: #0000FF;
+    color: #0000CC;
     font-weight: bold;
     flex-grow: 1;
 }
 
-.problem-link:hover {
-    color: #0056b3;
-}
+/* .problem-link:hover {
+    color: ;
+} */
 
 /* Playlist Section Font */
 .playlist-section, 
@@ -101,7 +102,7 @@
     background-color: transparent;
     border: none;
     font-size: 16px;
-    color: red;
+    color: grey;
 }
 
 .remove-button i {
@@ -115,22 +116,11 @@
     background-color: transparent;
     border: none;
     font-size: 16px;
-    color: #0008fa; /* Yellow for bookmark */
+    color: grey; /* Yellow for bookmark */
 }
 
 .bookmark-button i {
     font-size: 18px;
 }
 
-/* FontAwesome Icons */
-.remove-button i:before {
-    content: "\f00d"; /* Trash bin icon */
-}
 
-.bookmark-button i:before {
-    content: "\f02e"; /* Bookmark icon */
-}
-
-.shuffle-button i:before {
-    content: "\f074"; /* Shuffle icon */
-}

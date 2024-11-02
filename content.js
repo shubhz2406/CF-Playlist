@@ -9,7 +9,7 @@ document.head.appendChild(linkFont);
 // Add 'Add to Playlist' button on contest problem pages
 if (window.location.href.includes('/contest/') && window.location.href.includes('/problem/')) {
     const addButton = document.createElement('button');
-    addButton.innerHTML = '<i class="fa-solid fa-plus"></i>';
+    addButton.innerHTML = '<h5 style="margin-top: 0;">Add</h5>';
     addButton.classList.add('add-button');  // Use the class from CSS file
     
     const problemHeader = document.querySelector('.problemindexholder .title');
@@ -49,6 +49,48 @@ if (window.location.href.includes('/contest/') && window.location.href.includes(
     }
 }
 
+if (window.location.href.includes('/problemset/problem')) {
+    const addButton = document.createElement('button');
+    addButton.innerHTML = '<h5 style="margin-top: 0;">Add</h5>';
+    addButton.classList.add('add-button');  // Use the class from CSS file
+    
+    const problemHeader = document.querySelector('.problemindexholder .title');
+    
+    if (problemHeader) {
+        const problemNameWithIndex = problemHeader.textContent.trim();  // Extract problem name
+        const problemName = problemNameWithIndex.split(". ")[1];
+        problemHeader.appendChild(addButton);
+
+        addButton.onclick = function() {
+            const pathSegments = window.location.pathname.split('/');
+            const contestId = pathSegments[pathSegments.length - 2];
+            const problemIndex = pathSegments[pathSegments.length - 1];
+            const problemId = `${contestId}/${problemIndex}`;
+            console.log('Adding problem:', problemId);
+            
+            chrome.storage.local.get({ playlist: [] }, function(data) {
+                const { playlist } = data;
+                
+                // Check if the problem is already in the playlist
+                if (playlist.some(item => item.id === problemId)) {
+                    alert('This problem is already in your playlist!');
+                    return;
+                }
+
+                // Create an object with problem ID and name
+                const newProblem = { id: problemId, name: problemName };
+
+                const updatedPlaylist = [...playlist, newProblem];  // Add the new problem
+                chrome.storage.local.set({ playlist: updatedPlaylist }, function() {
+                    alert('Problem added to playlist!');
+                });
+            });
+        };
+    } else {
+        console.error('Problem title element not found.');
+    }
+}
+
 // Profile page code (for playlist)
 if (window.location.href.includes('/profile/')) {
     const updateAndRenderPlaylist = () => {
@@ -60,7 +102,7 @@ if (window.location.href.includes('/profile/')) {
 
             const playlistSection = document.createElement('div');
             playlistSection.classList.add('playlist-section');
-            playlistSection.innerHTML = '<h2>Pseudo Random Practice</h2>';
+            
             
             const shuffleButton = document.createElement('button');
             shuffleButton.innerHTML = '<i class="fas fa-random"></i>';
@@ -79,10 +121,12 @@ if (window.location.href.includes('/profile/')) {
 
             const playlistContainer = document.createElement('div');
             playlistContainer.classList.add('playlist-container');
+            playlistContainer.innerHTML = '<h5 style="font-weight: 300; padding-bottom: 4px;">Pseudo Random Practice</h5>';
             
             if (playlist.length === 0) {
                 playlistSection.innerHTML += '<p>No problems in your playlist.</p>';
             } else {
+                let cnt = 0;
                 playlist.forEach(problemId => {
                     const problemItem = document.createElement('div');
                     problemItem.classList.add('problem-item');
@@ -100,7 +144,8 @@ if (window.location.href.includes('/profile/')) {
                     }
 
                     const removeButton = document.createElement('button');
-                    removeButton.innerHTML = '<i class="fa-solid fa-xmark"></i>'; 
+                    // removeButton.innerHTML = '<i class="fa-solid fa-xmark"></i>'; 
+                    removeButton.innerHTML = '<img src="https://codeforces.com/codeforces.org/s/50148/images/actions/delete.png" width="16" height="16">'; 
                     removeButton.classList.add('remove-button');
                     removeButton.onclick = function() {
                         chrome.storage.local.get({ playlist: [] }, function(data) {
@@ -112,7 +157,8 @@ if (window.location.href.includes('/profile/')) {
 
                     const bookmarkButton = document.createElement('button');
                     const isBookmarked = bookmarkedProblems.some(bookmarked => bookmarked.id === problemId.id);
-                    bookmarkButton.innerHTML = isBookmarked ? '<i class="fas fa-bookmark"></i>' : '<i class="far fa-bookmark"></i>'; 
+                    // bookmarkButton.innerHTML = isBookmarked ? '<i class="fas fa-bookmark"></i>' : '<i class="far fa-bookmark"></i>'; 
+                    bookmarkButton.innerHTML = isBookmarked ? '<img src="https://codeforces.com/codeforces.org/s/50148/images/icons/star_yellow_16.png" width="16" height="16">' : '<img src="https://codeforces.com/codeforces.org/s/50148/images/icons/star_gray_16.png" width="16" height="16">'; 
                     bookmarkButton.classList.add('bookmark-button');
                     bookmarkButton.onclick = function() {
                         chrome.storage.local.get({ bookmarkedProblems: [] }, function(data) {
@@ -127,9 +173,14 @@ if (window.location.href.includes('/profile/')) {
 
                     if(isSolved)
                     {
-                        problemItem.style.backgroundColor = '#86E284';
+                        problemItem.style.backgroundColor = '#d4edc9';
 
                     }
+                    else {
+                        if(cnt%2) problemItem.style.backgroundColor = '#ffffff';
+                    }
+                    cnt = cnt + 1;
+
                     // problemLink.style.color = isSolved ? 'green' : (isBookmarked ? '#e0b710' : 'blue');
 
                     problemItem.appendChild(problemLink);
